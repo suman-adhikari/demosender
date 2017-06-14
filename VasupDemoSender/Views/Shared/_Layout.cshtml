@@ -1,0 +1,265 @@
+﻿@using VasupDemoSender.Languages
+@using VasupDemoServerInfrastructure
+
+
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewBag.Title</title>
+
+
+    <link rel="stylesheet" href="~/includes/styles/style.default.css" type="text/css" />
+    <link rel="stylesheet" href="~/includes/prettify/prettify.css" type="text/css" />
+    <link rel="stylesheet" href="~/includes/styles/validationEngine.jquery.css" type="text/css" />
+    <link rel="stylesheet" href="~/includes/styles/font-awesome.css" type="text/css" />
+    <link rel="stylesheet" href="~/includes/styles/jquery.Jcrop.css" type="text/css" />
+    <link rel="stylesheet" href="~/includes/styles/jquery.minicolors.css" type="text/css" />
+    <link href="~/includes/styles/Geocell.css" rel="stylesheet" />
+    <script>
+        var BASE_URL = "http://localhost:21136/TeaserDemoSender"
+    </script>
+    <script type="text/javascript" src="~/includes/scripts/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="~/includes/scripts/jquery-ui-1.10.3.js"></script>
+    <script type="text/javascript" src="~/includes/scripts/bootstrap.min.js"></script>
+    <script type="text/javascript" src="~/includes/scripts/ajaxGrid.js"></script>
+    <script type="text/javascript" src="~/includes/scripts/jquery.ui.timepicker.js"></script>
+    <script type="text/javascript" src="~/includes/scripts/dateTimepicker.js"></script>
+    <script type="text/javascript" src="~/includes/scripts/jquery.validationEngine.js"></script>
+    <script type="text/javascript" src="~/includes/scripts/jquery.validationEngine-en.js"></script>
+    <script type="text/javascript" src="~/includes/scripts/validation.js"></script>
+    <script type="text/javascript" src="~/includes/scripts/jquery.minicolors.min.js"></script>
+
+    <script type="text/javascript" src="~/includes/prettify/prettify.js"></script>
+    <script type="text/javascript" src="~/includes/scripts/custom.js"></script>
+    <script type="text/javascript" src="~/includes/scripts/jquery.dataTables.min.js"></script>
+
+
+    <link rel="stylesheet" href="~/includes/XmlMobileParser/XmlMobileParser.css" type="text/css" />
+    <link rel="stylesheet" href="~/includes/XmlMobileParser/codemirror.css" type="text/css" />
+    <link rel="stylesheet" href="~/includes/XmlMobileParser/codemirrorExtra.css" type="text/css" />
+    <script type="text/javascript" src="~/includes/XmlMobileParser/codemirror.js"></script>
+    <script type="text/javascript" src="~/includes/XmlMobileParser/xml.js"></script>
+    <script type="text/javascript" src="~/includes/XmlMobileParser/XmlMobileParser.js"></script>
+    <script type="text/javascript" src="~/includes/XmlMobileParser/Custom.js"></script>
+    <script type="text/javascript" src="~/includes/XmlMobileParser/autoformatting.js"></script>
+    <script type="text/javascript" src="~/includes/XmlMobileParser/xml2json.js"></script>
+
+    <script type="text/javascript" src="~/includes/scripts/json2.js"></script>
+
+
+    <script type="text/javascript" src="~/includes/scripts/jquery.flot.min.js"></script>
+    <script type="text/javascript" src="~/includes/scripts/jquery.flot.resize.min.js"></script>
+    <script type="text/javascript" src="~/includes/scripts/jquery.cookie.js"></script>
+    <script type="text/javascript" src="~/includes/scripts/Shared.js"></script>
+    <script type="text/javascript" src="~/includes/scripts/tinymce/js/tinymce/tinymce.min.js"></script>
+    <script src="~/includes/scripts/jquery.Jcrop.js"></script>
+    <!--[if lte IE 8]>
+        <script language="javascript" type="text/javascript" src="js/excanvas.min.js"></script><![endif]-->
+
+    <script type="text/javascript">
+
+    </script>
+</head>
+<body>
+
+    <div class="mainwrapper fullwrapper">
+        @Html.Hidden("CurrentReturnUrl", Request.RawUrl)
+
+        <!-- START OF LEFT PANEL -->
+        <div class="leftpanel">
+
+            <div class="logopanel">
+                <h1>
+                    <a>Vasup Demo Sender</a>
+                </h1>
+
+            </div>
+            <!--logopanel-->
+
+            <div class="datewidget">Vasup Demo Sender</div>
+            <!--searchwidget-->
+
+            <div class="leftmenu">
+
+                <ul class="nav nav-tabs nav-stacked">
+                    <li id="TeaserDemoSender-menu">
+                        <a href="@Url.Action("Index", "TeaserDemoSender")">
+                            <span class="icon glyphicon glyphicon-time"></span>Teaser Demo Sender
+                        </a>
+                    </li>
+
+                    @if (Session[SessionVariables.LoginUserType] != null && Session[SessionVariables.LoginUserType].ToString() == "1")
+                    {
+                        <li id="TeaserManagement-menu">
+                            <a href="@Url.Action("Index", "TeaserManagement")">
+                                <span class="icon glyphicon glyphicon-info-sign"></span>Teaser Management
+                            </a>
+                        </li>
+                    }
+                   
+                        <li id="usermanagement-menu">
+                            <a href="@Url.Action("Index", "UserManagement")">
+                                <span class="icon glyphicon glyphicon-user"></span>User Management
+                            </a>
+                        </li>                  
+
+                </ul>
+            </div>
+            <!--leftmenu-->
+
+        </div>
+        <!--mainleft-->
+        <!-- END OF LEFT PANEL -->
+        <!-- START OF RIGHT PANEL -->
+        <div class="rightpanel">
+            <div class="headerpanel">
+
+                <a href="" class="showmenu"></a>
+
+                <div class="headerright">
+
+                    @*<div style="padding: 5px; display: inline-block;">
+                        <span style="color: #FFF;font-weight: bold;">@Lang.Language:</span>
+                        <select onchange=" return changeLanguage($(this).val()) " class="form-control form-control-ie" style="width: auto; display: inline-block;">
+                            @{
+                                foreach (var i in SiteLanguages.AvailableLanguages)
+                                {
+                                    <option value="@i.LangCultureName"
+                                            @{ var httpCookie = Request.Cookies["VasupDemoSender"]; }
+                                            @(httpCookie != null && (i.LangCultureName == httpCookie.Value) ? "selected" : "")>
+                                        @i.LangFullName
+                                    </option>
+
+                                }
+                            }
+                        </select>
+
+                    </div>*@
+
+                    <div class="dropdown userinfo">
+                        <a class="dropdown-toggle" data-toggle="dropdown" data-target="#"
+                           href="#">
+                            @Session[SessionVariables.LoginUserName]
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            @if (Session[SessionVariables.LoginUserType] != null && Session[SessionVariables.LoginUserType].ToString() == "1")
+                            {
+                                <li>
+                                    <a onclick="showEditForm(this, 'change password', '@Url.Action("ChangePassword", "UserManagement")', 400, 250); return false; "
+                                       href=""><span class="icon-edit"></span>Change Password</a>
+                                </li>
+                                <li class="divider"></li>
+                            }
+                            <li>
+                                <a href="@Url.Action("Logout", "Login")">
+                                    <span class="icon-off"></span>SignOut
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!--dropdown-->
+
+                </div>
+
+                <!--headerright-->
+
+            </div>
+            <!--headerpanel-->
+            <div class="breadcrumbwidget">
+                <ul class="breadcrumb">
+                    <li class="active">@ViewBag.Header</li>
+                </ul>
+            </div>
+            <!--breadcrumbwidget-->
+            <div class="pagetitle">
+                <h1 class="page-title">@ViewBag.Header</h1>
+            </div>
+            <!--pagetitle-->
+
+            <div class="maincontent">
+                <div class="contentinner content-dashboard">
+
+                    @Html.Partial("~/Views/Shared/_ConfirmationMessage.cshtml")
+
+                    <div class="row-fluid">
+                        @RenderBody()
+                    </div>
+                    <!--row-fluid-->
+                </div>
+                <!--contentinner-->
+            </div>
+            <!--maincontent-->
+
+        </div>
+        <!--mainright-->
+        <!-- END OF RIGHT PANEL -->
+
+        <div class="clearfix"></div>
+
+
+        <div class="footer">
+            <div class="footerleft">Demo Vasup Sender</div>
+            <div class="footerright" style="margin-left: 210px;">&copy; Unifun</div>
+        </div>
+        <!--footer-->
+    </div>
+    <!--mainwrapper-->
+    @*@if (Session[SessionVariables.PasswordChangeStatus] != null)
+        {
+            if (Convert.ToString(Session[SessionVariables.PasswordChangeStatus]) == "Failed")
+            {
+            <script type="text/javascript">
+                var div = $('<div><div id="message" class="alert alert-error"></div></div>');
+
+                div.find('#message').html('@Session[SessionVariables.PasswordChangeMessage]');
+
+                div.dialog({
+                    height: 100,
+                    width: 'auto',
+                    title: "Message",
+                    modal: true,
+                    close: function () {
+                        removeDialog(this);
+                    },
+                    open: function () {
+                        var closeBtn = $('.ui-dialog-titlebar-close');
+                        closeBtn.append('<span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span>');
+                    }
+                });
+            </script>
+            }
+            else
+            {
+            <script type="text/javascript">
+                var div = $('<div><div id="message" class="alert alert-success"></div></div>');
+
+                div.find('#message').html('@Session[SessionVariables.PasswordChangeMessage]');
+
+                div.dialog({
+                    height: 100,
+                    width: 'auto',
+                    title: "Message",
+                    modal: true,
+                    close: function () {
+                        removeDialog(this);
+                    },
+                    open: function () {
+                        var closeBtn = $('.ui-dialog-titlebar-close');
+                        closeBtn.append('<span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span>');
+                    }
+                });
+            </script>
+            }
+
+            Session[SessionVariables.PasswordChangeStatus] = null;
+            Session[SessionVariables.PasswordChangeMessage] = null;
+        }*@
+
+
+
+</body>
+</html>

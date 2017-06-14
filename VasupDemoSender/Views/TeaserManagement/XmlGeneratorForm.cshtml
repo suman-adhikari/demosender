@@ -1,0 +1,334 @@
+﻿
+<form class="form-horizontal" id="XmlGeneratorForm" method="post">
+    <div class="container-fluid">
+        <div class="row" id="XMLActions">
+            <div class="col-xs-offset-2 col-xs-8">
+                <div class="col-xs-5">
+                    <label class="control-label" for="playTone">Play Tone</label>
+                </div>
+                <div class="col-xs-7">
+                    <select class="form-control" id="playTone" name="playTone">
+                        <option value="1">Yes</option>
+                        <option value="2">No</option>
+                    </select>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="col-xs-offset-2 col-xs-8">
+                <div class="col-xs-5">
+                    <label class="control-label" for="displayText">Display Text</label>
+                </div>
+                <div class="col-xs-7">
+                    <select class="form-control" id="displayText" name="displayText">
+                        <option value="1">Yes</option>
+                        <option value="2">No</option>
+                    </select>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="col-xs-offset-2 col-xs-8">
+                <div class="col-xs-5">
+                    <label class="control-label"
+                           for="activationCommand"> Activation Command</label>
+                </div>
+                <div class="col-xs-7">
+                    <select class="form-control" id="activationCommand" name="activationCommand">
+                        <option value="1">Yes</option>
+                        <option value="2">No</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row borderThisRowTop" id="textAreas">
+            <div class="col-xs-offset-2 col-xs-8">
+                <div class="col-xs-4">
+                    <label class="control-label pull-right"
+                           for="NumberOfClicks">Number Of Clicks</label>
+                </div>
+                <div class="col-xs-8">
+                    <select class="form-control" id="NumberOfClicks" name="NumberOfClicks">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-xs-offset-2 col-xs-8">
+                <div class="col-xs-4">
+                    <label class="control-label pull-right"
+                           for="EncodingId">Encoding</label>
+                </div>
+                <div class="col-xs-8">
+                    <select class="form-control" id="EncodingId" name="EncodingId">
+                        @* <?php foreach ($EncodingList as $Encoding): ?>
+                        <option value="<?php echo $Encoding->ID ?>">
+                            <?php echo $Encoding->EncodingName ?>
+                        </option>
+                        <?php endforeach; ?>*@
+                        <option>Encoding-1</option>
+                        <option>Encoding-2</option>
+                        <option>Encoding-3</option>
+                    </select>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="col-xs-12">
+                <div class="col-xs-2">
+                    <label class="control-label" for="textarea1">Text 1</label>
+                </div>
+                <div class="col-xs-10">
+                    <textarea class="form-control textareaCustom validate[required,custom[InvalidCharacters]]"
+                              id="textarea1" name="textarea1"
+                              rows="3" maxlength="240"></textarea>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="col-xs-2">
+                    <label class="control-label" for="textarea2">Text 2</label>
+                </div>
+                <div class="col-xs-10">
+                    <textarea class="form-control textareaCustom" id="textarea2" name="textarea2" rows="3"
+                              maxlength="240" disabled></textarea>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="col-xs-2">
+                    <label class="control-label" for="textarea3">Text 3</label>
+                </div>
+                <div class="col-xs-10">
+                    <textarea class="form-control textareaCustom" id="textarea3" name="textarea3" rows="3"
+                              maxlength="240" disabled></textarea>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="col-xs-2">
+                    <label class="control-label" for="textarea4">Text 4</label>
+                </div>
+                <div class="col-xs-10">
+                    <textarea class="form-control textareaCustom" id="textarea4" name="textarea4" rows="3"
+                              maxlength="240" disabled></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="row borderThisRowTop" id='ActivationTypeDiv'>
+            <div class="col-xs-offset-2 col-xs-8">
+                <div class="col-xs-4">
+                    <label class="control-label pull-right"
+                           for="ActivationTypeXmlGenerator">Activation Type</label>
+                </div>
+                <div class="col-xs-8">
+                    <select class="form-control" id="ActivationTypeXmlGenerator" name="ActivationTypeXmlGenerator">
+                        <option value="1">SMS</option>
+                        <option value="2">USSD</option>
+                        <option value="3">Call</option>
+                    </select>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="col-xs-6">
+                <div class="col-xs-3">
+                    <label class="control-label" for="smsc"
+                           style="font-size: 11px;">Smsc</label>
+                </div>
+                <div class="col-xs-9">
+                    <input class="form-control" id="smsc" name="smsc" type="text" disabled="disabled"
+                           value="+992919038989" />
+                </div>
+            </div>
+            <div class="col-xs-6">
+                <div class="col-xs-4">
+                    <label class="control-label" for="titleText"
+                           style="font-size: 11px;">Title Text</label>
+                </div>
+                <div class="col-xs-8">
+                    <input class="form-control" id="titleText" name="titleText" type="text" value="Please Wait ..."
+                           disabled="disabled" />
+                </div>
+            </div>
+            <div class="col-xs-6">
+                <div class="col-xs-3">
+                    <label class="control-label" for="address"
+                           style="font-size: 11px;">Address</label>
+                </div>
+                <div class="col-xs-9">
+                    <input class="form-control can-alter validate[required,custom[OnlyNumbersNSymbols]]" id="address"
+                           name="address" type="text" />
+                </div>
+            </div>
+            <div class="col-xs-6">
+                <div class="col-xs-4">
+                    <label class="control-label" for="stringText"
+                           style="font-size: 11px;">String Text</label>
+                </div>
+                <div class="col-xs-8">
+                    <input class="form-control can-alter validate[required]" id="stringText" name="stringText" type="text" />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12">
+            <div class="row-fluid centered">
+                <button type="button" id="XmlGeneratorButton" name="XmlGeneratorButton" class="btn btn-primary"style="width: 150px;">Generate XML</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+<script>
+
+    var Encoding = $("#EncodingId option:selected").text().trim();
+    $(document).ready(function () {
+
+        $('#XmlGeneratorForm').validationEngine({
+            'custom_error_messages': {
+                '#stringText': {
+                    'required': {
+                        'message': "<?= $Language->translate('Please add value to the String text') ?>"
+                    }
+                },
+                '#address': {
+                    'required': {
+                        'message': "<?= $Language->translate('Please add value to the Address') ?>"
+                    }
+                }
+            }
+        });
+
+        var $textAreas = $('#textAreas').clone();
+        var $ActivationTypeDiv = $('#ActivationTypeDiv').clone();
+
+        var $maxLength = 120;
+        $("#EncodingId").on("change", function (e) {
+            Encoding = $(this).find("option:selected").text().trim();
+
+            if (Encoding == 'Latin') {
+                $maxLength = 240;
+            }
+
+            $('.textareaCustom').attr("maxlength", $maxLength);
+        });
+
+        $('#textAreas #NumberOfClicks').on("change", function (event) {
+
+//            var $NumberOfClicks = parseInt(event.srcElement.selectedOptions[0].innerHTML);
+            var $NumberOfClicks = parseInt($('#NumberOfClicks').val());
+            for (var $i = ($NumberOfClicks + 1); $i <= 4; $i++) {
+                $("#textarea" + $i).attr("disabled", true);
+            }
+
+            for (var $i = $NumberOfClicks; $i > 0; $i--) {
+                $("#textarea" + $i).attr("disabled", false);
+            }
+
+        });
+
+        $('.textareaCustom').bind('keypress', function () {
+
+            if (Encoding == "Latin") {
+                $(this).val($(this).val().replace(/[абвгдеёжзийклмнопрстуфхцчшщьыъэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЬЫЪЭЮЯ]/, ""));
+            }
+        });
+
+        $('#ActivationTypeXmlGenerator').change(function (e) {
+            debugger;
+            $('#ActivationTypeDiv').find('.can-alter').attr("disabled", "disabled");
+            $('#ActivationTypeDiv').find('#smsc').val("");
+            if ($(e.target.selectedOptions.item(0)).val() == 1) {
+                $('#ActivationTypeDiv').find('#smsc').val("+992919038989");
+                $('#ActivationTypeDiv').find('.can-alter').removeAttr("disabled");
+            }
+            else if ($(e.target.selectedOptions.item(0)).val() == 2) {
+                $('#ActivationTypeDiv').find('#address').removeAttr("disabled");
+                $('#ActivationTypeDiv').find('#stringText').val('');
+            }
+            else if ($(e.target.selectedOptions.item(0)).val() == 3) {
+                $('#ActivationTypeDiv').find('#address').removeAttr("disabled");
+            }
+        });
+
+
+        $('#XmlGeneratorButton').click(function (event) {
+            debugger;
+            event.preventDefault();
+
+            var $ValidLatin = true;
+            if (Encoding == "Latin") {
+
+                for (var i = 0; i < $('.textareaCustom').length; i++) {
+                    var result = $('.textareaCustom').eq(i).val().match(/[абвгдеёжзийклмнопрстуфхцчшщьыъэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЬЫЪЭЮЯ]/);
+                    if (result != null) {
+                        $ValidLatin = false;
+                        break;
+                    }
+                }
+
+                if ($ValidLatin == false) {
+                    Warning(Language.translate("Notice"), Language.translate("Please change the Encoding to Cyrillic & Latin"));
+                    return false;
+                }
+            }
+
+
+            $('#HiddenEncoding').val($('#EncodingId').val());
+
+            var valid = $("#XmlGeneratorForm").validationEngine('validate');
+            if (valid == false) {
+                return false;
+            }
+
+            if ($(".formErrorContent").length <= 0) {
+
+                var myArray = [];
+                myArray["playTone"] = $(this).closest("#XmlGeneratorForm").find("#playTone option:selected").val();
+                myArray["displayText"] = $(this).closest("#XmlGeneratorForm").find("#displayText option:selected").val();
+                myArray["activationCommand"] = $(this).closest("#XmlGeneratorForm").find("#activationCommand option:selected").val();
+
+                myArray["numberOfClicks"] = $(this).closest("#XmlGeneratorForm").find("#NumberOfClicks option:selected").text();
+                myArray["activationType"] = $(this).closest("#XmlGeneratorForm").find("#ActivationTypeXmlGenerator option:selected").val();
+                myArray["activationTypeSmsc"] = $(this).closest("#XmlGeneratorForm").find("#smsc").val();
+                myArray["activationTypeAddress"] = $(this).closest("#XmlGeneratorForm").find("#address").val();
+                myArray["activationTypeTitleText"] = $(this).closest("#XmlGeneratorForm").find("#titleText").val();
+                myArray["activationTypeText2"] = $(this).closest("#XmlGeneratorForm").find("#stringText").val();
+                myArray["NumberOfClicktext1"] = $(this).closest("#XmlGeneratorForm").find("#textarea1").val();
+                myArray["NumberOfClicktext2"] = $(this).closest("#XmlGeneratorForm").find("#textarea2").val();
+                myArray["NumberOfClicktext3"] = $(this).closest("#XmlGeneratorForm").find("#textarea3").val();
+                myArray["NumberOfClicktext4"] = $(this).closest("#XmlGeneratorForm").find("#textarea4").val();
+
+                CreateTemplate(myArray, Encoding);
+
+                $("body").find("#XmlGenerator").dialog("close");
+            }
+
+        });
+
+        $('#displayText').on('change', function () {
+            if ($('#displayText').val() == '2') {
+
+                $('#textAreas *').attr('disabled', true);
+
+            } else {
+                $('#textAreas *').attr('disabled', false);
+
+                $('#NumberOfClicks').trigger('change');
+            }
+        });
+
+        $('#activationCommand').on('change', function () {
+            if ($('#activationCommand').val() == '2') {
+                $('#ActivationTypeDiv *').attr('disabled', true);
+            } else {
+                $('#ActivationTypeXmlGenerator, #ActivationTypeXmlGenerator *').attr('disabled', false);
+
+                $('#ActivationTypeXmlGenerator').trigger('change');
+            }
+        });
+    });
+
+</script>
+
+
+

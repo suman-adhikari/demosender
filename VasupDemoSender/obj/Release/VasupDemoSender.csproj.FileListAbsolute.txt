@@ -1,0 +1,12 @@
+F:\SVN Projects\VASUPDemoSender\VasupDemoSender\VasupDemoSender\bin\VasupDemoSender.dll.config
+F:\SVN Projects\VASUPDemoSender\VasupDemoSender\VasupDemoSender\bin\VasupDemoSender.dll
+F:\SVN Projects\VASUPDemoSender\VasupDemoSender\VasupDemoSender\bin\VasupDemoSender.pdb
+F:\SVN Projects\VASUPDemoSender\VasupDemoSender\VasupDemoSender\bin\VasupDemoServerInfrastructure.dll
+F:\SVN Projects\VASUPDemoSender\VasupDemoSender\VasupDemoSender\bin\VasupDemoServerModel.dll
+F:\SVN Projects\VASUPDemoSender\VasupDemoSender\VasupDemoSender\bin\VasupDemoServerRepository.dll
+F:\SVN Projects\VASUPDemoSender\VasupDemoSender\VasupDemoSender\bin\VasupDemoServerInfrastructure.pdb
+F:\SVN Projects\VASUPDemoSender\VasupDemoSender\VasupDemoSender\bin\VasupDemoServerModel.pdb
+F:\SVN Projects\VASUPDemoSender\VasupDemoSender\VasupDemoSender\bin\VasupDemoServerRepository.pdb
+F:\SVN Projects\VASUPDemoSender\VasupDemoSender\VasupDemoSender\obj\Release\VasupDemoSender.csprojResolveAssemblyReference.cache
+F:\SVN Projects\VASUPDemoSender\VasupDemoSender\VasupDemoSender\obj\Release\VasupDemoSender.dll
+F:\SVN Projects\VASUPDemoSender\VasupDemoSender\VasupDemoSender\obj\Release\VasupDemoSender.pdb

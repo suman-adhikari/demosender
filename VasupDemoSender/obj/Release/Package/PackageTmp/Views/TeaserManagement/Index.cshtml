@@ -1,0 +1,132 @@
+﻿@{
+    ViewBag.Title = "Teaser Management";
+    ViewBag.header = "Teaser Management";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var baseurl = Request.Url.GetLeftPart(UriPartial.Authority) + Request.ApplicationPath;
+}
+
+<div class="page-header">
+
+    <div class="pull-right">
+        <button type="button" class="btn btn-success addbtn pull-right " id="AddNew"
+                onclick="showAddNewForm('Add New Teaser', '@Url.Action("Form", "TeaserManagement")', 1200, 575);">
+            <small class="glyphicon glyphicon-plus-sign"></small>Add New Teaser</button>
+    </div>
+    <div class="clearfix"></div>
+</div>
+
+
+<div class="UnifunBlock">
+    <h2 class="UnifunHeading2">Teaser
+        <button type="button" style="margin-top:2px" title="Refresh Grid"class="pull-right btn btn-primary btn-small refreshGrid" onclick="RefreshTableGrid(this)">
+            <span class="glyphicon glyphicon-refresh"></span>
+        </button>
+    </h2>
+    <table class="table table-bordered table-responsive table-striped wrap-text table-sorted"
+           id="teaserManagement-list">
+        <thead>
+            <tr>
+                <th class="sorting">
+                    <a class="table-header" field-name="ID">Teaser ID</a>
+                </th>
+                <th class="sorting">
+                    <a class="table-header"
+                       field-name="TeaserIdCode">ID_Teaser name</a>
+                </th>
+                <th class="sorting">
+                    <a class="table-header"
+                       field-name="TeaserName">Teaser Name</a>
+                </th>
+                <th class="sorting">
+                    <a class="table-header"
+                       field-name="DateCreated">Date of creation</a>
+                </th>
+                <!--<th class="sorting"><a class="table-header" field-name="TargetGroupName"><?= $Language->translate('Target Group') ?></a></th>
+                <th class="sorting"><a class="table-header" field-name="BroadcastScheduleName">Broadcast Schedule</a></th>-->
+                <th class="sorting">
+                    <a class="table-header"
+                       field-name="LanguageName">Language</a>
+                </th>
+                <th class="sorting">
+                    <a class="table-header"
+                       field-name="NoOfClicks">Number Of steps</a>
+                </th>
+                <th class="sorting">
+                    <a class="table-header"
+                       field-name="ActivationType">Activation Type</a>
+                </th>
+                <th class="sorting">
+                    <a class="table-header"
+                       field-name="Encoding">Encoding</a>
+                </th>
+                <th style="width: 260px !important;" class="sorting">
+                    <a class="table-header"
+                       field-name="Comments">Comment</a>
+                </th>
+                <th style="width: 120px !important;">Actions</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <div class="clearfix"></div>
+</div>
+<div id="loading-msg-blacklist" class="loading-image">
+</div>
+<div class="clearfix"></div>
+
+
+<script type="text/javascript">
+    $(function () {
+        $('#teaser-management-menu').addClass('active');
+
+
+        $('#teaserManagement-list').ajaxGrid({
+            pageSize: 10,
+            defaultSortExpression: 'ID',
+            defaultSortOrder: 'DESC',
+            tableHeading: '.table-header',
+            url: '@Url.Action("FindAll", "TeaserManagement")',
+            requestType: 'GET',
+            loadingImage: $('#loading-msg-blacklist'),
+            postContent: [
+                {
+                    control: $('<button type="button" class="btn btn-primary" alt="View" title="View" ' +
+                    'onclick=\'showEditForm(this,"View Teaser","TeaserManagement/View", 1200, 530,"user-loading-message")\'>' +
+                    '<small class="glyphicon glyphicon-file"></small>' +
+                    '  </button>')
+    },
+                {
+                    control: $('<form action="<?php echo BASE_URL?>TeaserManagement/Delete" method="POST" style="display:inline-block">' +
+                    "<input type='hidden' name='ID' id='ID' /> " +
+                    '<button type="submit" class="btn btn-danger" alt="Delete" title="Delete teaser"' +
+                    'onclick=\'return Confirmation(this,"Delete teaser","Are you sure you want to delete?", "Yes", "No")\'>' +
+                    '<span class="glyphicon glyphicon-remove"></span> </button></form>'),
+    properties: [
+        {
+            propertyField: 'input[type=hidden]#ID',
+            property: 'value',
+            propertyValue: 'ID'
+        }
+    ]
+    }
+    ],
+    id: 'ID',
+        NoRecordsFound: 'No Records Found',
+    Previous: 'Previous',
+    Next: 'Next")'
+    });
+
+    //RemoveCookieItem('ValidateTeaserName');
+    // RemoveCookieItem('ValidateTeaserID');
+    });
+
+
+    function RemoveCookieItem(sKey, sPath, sDomain) {
+        document.cookie = encodeURIComponent(sKey) +
+        "=; expires=Thu, 01 Jan 1970 00:00:00 GMT" +
+        (sDomain ? "; domain=" + sDomain : "") +
+        (sPath ? "; path=" + sPath : "");
+    }
+
+
+</script>

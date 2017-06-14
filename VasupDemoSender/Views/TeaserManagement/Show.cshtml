@@ -1,0 +1,141 @@
+﻿@using System.Web.Mvc.Html
+@model VasupDemoServerModel.TeaserList
+@{
+    var baseurl = Request.Url.GetLeftPart(UriPartial.Authority) + Request.ApplicationPath;
+
+}
+
+@using (Html.BeginForm("SaveuserForm", "UserManagement", FormMethod.Post, new { @class = "form-horizontal", @id = "UserManagementForm" }))
+{
+
+     
+
+    @Html.HiddenFor(x => x.TeaserXml, new { @class = "form-control", @id = "TeaserXml" })
+
+    <div id="Form">
+        <div class="col-xs-4">
+
+            <div class="form-group">
+                <div class="col-xs-4">
+                    @Html.LabelFor(x => x.TeaserName, new { @class = "control-label" })
+                </div>
+                <div class="col-xs-8">
+                    @Html.TextBoxFor(x => x.TeaserName, new { @class = "form-control validate[required]",@readonly="readonly" })  
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-xs-4">
+                    <label class="control-label" for="LanguageId">Teaser Language</label>
+                </div>
+                <div class="col-xs-8">
+                    @Html.DropDownListFor(x => x.TeaserName, (IEnumerable<SelectListItem>)ViewBag.Category, new { @class = "form-control", @readonly = "readonly" })
+                </div>
+               
+                @*<div class="col-xs-8">
+                    <select class="form-control" id="LanguageId" name="LanguageId">
+                        <option>one</option>
+                        <option>Two</option>
+                        <option>Three</option>
+                    </select>
+                </div>*@
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-4">
+                    @Html.LabelFor(x => x.Comments, new { @class = "control-label" })
+                </div>
+                <div class="col-xs-8">
+                    @Html.TextBoxFor(x => x.Comments, new { @class = "form-control validate[required]", @readonly = "readonly" })
+                    
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="col-xs-3" id="midMobileDiv">
+        </div>
+        <div class="col-xs-5">
+
+            <div class="col-xs-12" id="XmlcontentAreaDiv"></div>
+
+        </div>
+    </div>
+    <div class="clearfix"><br/>
+    </div>
+
+
+}
+
+<script>
+
+    var $saveGlobalFlag = -1;
+    var validationResponse;
+
+    $(document).ready(function () {
+
+        $data = $("#TeaserXml").val();
+  
+        var $xmlData = "";
+        try {
+            $xmlData = decodeURIComponent($data).replace(/\+/g, ' ');
+        }
+        catch (e) {
+            console.log(e);
+        }
+
+        var $editor = $('#XmlContent').XmlMobileParser({
+            baseUrl: '@baseurl',
+            textArea: {
+                divId: 'XmlcontentAreaDiv',
+                height: 375,
+                margin: '7px auto',
+                text: $xmlData
+            },
+            mobile: {
+                "main": {
+                    divId: 'midMobileDiv',
+                    height: 417
+                },
+                "mobile": {
+                    backgroundUrl: '@baseurl' + '/includes/images/TeaserManagement/UssdPhone.png',
+                    width: 220,
+                    height: 415
+                },
+                "MobileInnerPageNumber": {
+                    width: 190,
+                    height: 18,
+                    top: 48,
+                    left: 53,
+                    border: '1px solid #C1C1C1',
+                    display: 'none'
+                },
+                "MobileInnerDisplay": {
+                    divId: 'midMobileDiv',
+                    backgroundUrl: '@baseurl' + '/includes/images/TeaserManagement/ussd_phone_final.png',
+                    width: 190,
+                    height: 240,
+                    top: 65,
+                    left: 53,
+                    border: '0px solid #C1C1C1',
+                    textAlign: 'center',
+                    verticalAlign: 'middle'
+                },
+                "leftArrow": {
+                    backgroundUrl: '@baseurl' + '/includes/images/TeaserManagement/left.png',
+                    backgroundUrlHover: '@baseurl' + '/includes/images/TeaserManagement/leftHover.png'
+                },
+                "rightArrow": {
+                    backgroundUrl: '@baseurl' + '/includes/images/TeaserManagement/right.png',
+                    backgroundUrlHover: '@baseurl' + '/includes/images/TeaserManagement/rightHover.png'
+                }
+            },
+            numberOfClicksID: 'numberOfClicks'
+        });
+
+        setEditor($editor);
+        SetEditorText($xmlData);
+    });
+
+
+</script>

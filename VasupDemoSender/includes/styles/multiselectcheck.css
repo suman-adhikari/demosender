@@ -1,0 +1,18 @@
+.select-box-custom{
+    background: white;
+    border: 1px solid #CCC;
+    padding: 10px;
+    height: 200px;
+    overflow-y: scroll;
+    margin-bottom: 10px;
+}
+
+.select-box-custom ul{
+    list-style: none;
+}
+
+ul li input[type="checkbox"]{
+    margin-right: 3px;
+}
+
+

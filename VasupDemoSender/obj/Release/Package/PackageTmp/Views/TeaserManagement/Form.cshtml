@@ -1,0 +1,332 @@
+﻿@{
+    var baseurl = Request.Url.GetLeftPart(UriPartial.Authority) + Request.ApplicationPath;
+}
+
+<form action="@Url.Action("SaveUpdate", "TeaserDemoSender")" class="form-horizontal" id="TeaserManagementForm"
+      method="post" style="margin-top: 10px;">
+
+    <input type="hidden" name="ID" id="ID" value="<?php echo $TeaserList->ID ?>" />
+    <input type="hidden" name="newID" id="newID" value="-1" />
+    <input type="hidden" name="ActivationType" id="ActivationType" />
+    <input type="hidden" id="numberOfClicks" name="numberOfClicks" />
+    <input type="hidden" name="SaveFlag" id="SaveFlag" value="-1" />
+    <input type="hidden" name="HiddenEncoding" id="HiddenEncoding" />
+
+
+    <div id="Form">
+        <div class="col-xs-4">
+
+            <div class="form-group">
+                <div class="col-xs-4">
+                    <label class="control-label" for="TeaserName">Teaser Name</label>
+                </div>
+                <div class="col-xs-8">
+                    <input class="form-control validate[required,custom[onlyEnglishLetterNumber],custom[CyrillicValidation],maxSize[28]]" id="TeaserName" name="TeaserName" type="text" maxlength="28" value="" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-xs-4">
+                    <label class="control-label" for="LanguageId">Teaser Language</label>
+                </div>
+                <div class="col-xs-8">
+                    <select class="form-control" id="LanguageId" name="LanguageId">
+                        <option>one</option>
+                        <option>Two</option>
+                        <option>Three</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-4">
+                    <label class="control-label" for="Comments">Comment</label>
+                </div>
+                <div class="col-xs-8">
+                    <textarea class="form-control" id="Comments" name="Comments" rows="5" cols="50"
+                              style="overflow-y: scroll;height: 100px;resize: none;"></textarea>
+                </div>
+            </div>
+            @* <?php if ($TeaserList->ID == null): ?>*@
+            <div class="XmlContentAreaPrevDiv col-xs-12">
+                <button id='GenerateXml' class='btn btn-info' type='button'> Generate XML</button>
+                &nbsp;
+            </div>
+            <div class="XmlContentAreaPrevDiv col-xs-12">
+                <button id='Templates' class='btn btn-info' type='button'>Templates</button>
+            </div>
+            <div class="XmlContentAreaPrevDiv col-xs-12">
+                <label for='fileUpload' class='btn btn-info'
+                       style="font-size: 13px!important;font-weight: bolder">Choose File</label>
+                <input class='dis-none' id='fileUpload' type='file' name='fileUpload' accept=".xml">
+
+            </div>
+        </div>
+
+
+        <div class="col-xs-3" id="midMobileDiv">
+        </div>
+        <div class="col-xs-5">
+
+            <div class="col-xs-12" id="XmlcontentAreaDiv"></div>
+            <div style="color: red">
+
+                *Restriction notes: <br />
+                Latin: 240 letters inside < text >tag <br />
+                Cyrillic & Latin: 120 letter inside < text >tag <br />
+                Only numbers inside < address >tag
+
+
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"><br /></div>
+    @*<?php if ($TeaserList->ID == null): ?>*@
+    <div style="margin-top: 0px;text-align: center;" class="col-xs-offset-4 col-xs-3" id="submitBtns">
+        <input type="button" id="TeaserValidate" name="TeaserValidate" class="btn btn-primary" value="Validate First">
+
+        <div id="submitTeasers" style="display: inline-block;width:300px; margin-left:-14px">
+            <input type="submit" id="TeaserManagementTemplateSubmit" name="TeaserManagementTemplateSubmit" class="btn btn-primary" value="Save as Template">
+            <input type="submit" id="TeaserManagementSubmit" name="TeaserManagementSubmit" class="btn btn-success" value="Save">
+        </div>
+
+    </div>
+
+</form>
+
+<script>
+
+    var $saveGlobalFlag = -1;
+    var validationResponse;
+
+    $(document).ready(function () {
+
+        $('#TeaserManagementTemplateSubmit, #TeaserManagementSubmit').on('click', function () {
+            $('form#TeaserManagementForm select').prop('disabled', false);
+        })
+
+        $('#submitTeasers').hide();
+
+        $('#TeaserManagementForm').validationEngine({
+            'custom_error_messages': {
+                '#TeaserName': {
+                    'required': {
+                        'message': "Only Latin symbols may be inserted"
+                    }
+                }
+            }
+        });
+
+        $data = '<?php echo $TeaserList->TeaserXmlRu?>';
+
+        var $xmlData = "";
+        try {
+            $xmlData = decodeURIComponent('<?php echo $TeaserList->TeaserXmlRu?>').replace(/\+/g, ' ');
+        }
+        catch (e) {
+            console.log(e);
+        }
+
+        var $editor = $('#XmlContent').XmlMobileParser({
+            baseUrl: '@baseurl',
+            textArea: {
+                divId: 'XmlcontentAreaDiv',
+                height: 375,
+                margin: '7px auto',
+                text: $xmlData
+            },
+            mobile: {
+                "main": {
+                    divId: 'midMobileDiv',
+                    height: 417
+                },
+                "mobile": {
+                    backgroundUrl: '@baseurl' + 'includes/images/TeaserManagement/UssdPhone.png',
+                    width: 220,
+                    height: 415
+                },
+                "MobileInnerPageNumber": {
+                    width: 190,
+                    height: 18,
+                    top: 48,
+                    left: 53,
+                    border: '1px solid #C1C1C1',
+                    display: 'none'
+                },
+                "MobileInnerDisplay": {
+                    divId: 'midMobileDiv',
+                    backgroundUrl: '@baseurl' + 'includes/images/TeaserManagement/ussd_phone_final.png',
+                    width: 190,
+                    height: 240,
+                    top: 65,
+                    left: 53,
+                    border: '0px solid #C1C1C1',
+                    textAlign: 'center',
+                    verticalAlign: 'middle'
+                },
+                "leftArrow": {
+                    backgroundUrl: '@baseurl' + 'includes/images/TeaserManagement/left.png',
+                    backgroundUrlHover: '@baseurl' + 'includes/images/TeaserManagement/leftHover.png'
+                },
+                "rightArrow": {
+                    backgroundUrl: '@baseurl' + 'includes/images/TeaserManagement/right.png',
+                    backgroundUrlHover: '@baseurl' + 'includes/images/TeaserManagement/rightHover.png'
+                }
+            },
+            numberOfClicksID: 'numberOfClicks'
+        });
+
+        setEditor($editor);
+        SetEditorText($xmlData);
+
+
+        var $saveFlag = 0;
+        $('#TeaserManagementSubmit').on('click', function (event) {
+            try {
+
+                event.preventDefault();
+                if ($saveGlobalFlag == 1) {
+                    return false;
+                }
+                if ($saveFlag != 1) {
+                    var $tempFlag = 0;
+                    if ($tempFlag != 1 && $saveGlobalFlag == -1) {
+                        if ($('#SaveFlag').attr("value") != '-1') {
+                            $('#SaveFlag').attr("value", $editor.getValue());
+                            $saveGlobalFlag = 1;
+                            $("#TeaserManagementForm").submit();
+                            $saveFlag = 0;
+                        }
+                        else {
+                            Confirmation(this, "Error!!!!", "The Xml Provided is Invalid", "OK", "null");
+                            $saveGlobalFlag = -1;
+                        }
+                    }
+                }
+            }
+            catch (e) {
+                console.log(e.message);
+            }
+
+        });
+
+
+        $('#fileUpload').on("change", function () {
+            if (previewFile(this, $('#XmlcontentAreaDiv')) == 0) {
+                Confirmation(this, "Error!!!!", "The Xml Provided is not Xml.", "OK", "null");
+            }
+        });
+
+        $('#GenerateXml').on("click", function () {
+            showNewForm('<?= $Language->translate("Xml Generator")?>', '<?php echo BASE_URL?>TeaserManagement/XmlGeneratorForm', 800, 750, 'XmlGenerator');
+        });
+
+        /*$('#EditXml').on("click", function () {
+         showNewForm('
+        <?= $Language->translate("Xml Generator")?>"', '
+        <?php echo BASE_URL?>TeaserManagement/XmlGeneratorForm', 800, 680, 'XmlGenerator');
+         });*/
+
+
+        $('#Templates').on("click", function () {
+            showNewForm('Xml Template', '@Url.Action("XmlTemplateForm","TeaserManagement")/', 450, 300, 'XmlTemplate');
+        });
+
+        $('#TeaserValidate').click(function () {
+            debugger;
+            var valid = $("#TeaserManagementForm").validationEngine('validate');
+            if (valid == false) {
+                return false;
+            }
+
+            $("#Form input,#Form textarea, #Form select").attr("readonly", true).css("pointer-event", "none");
+            $('#XmlcontentAreaDiv').css("pointer-event", "none");
+
+            var TeaserId = null;
+            /* <?php if($TeaserList->ID != null){ ?>
+             if ((<?php echo $TeaserList->ID ?>) > 0) {
+                 TeaserId = <?php echo $TeaserList->ID ?>;
+             }
+             <?php } ?>*/
+
+            var validationflag = "";
+            debugger;
+            var validationflag = checkXmlValidation();
+
+            /*if (validationflag.length <= 0 && $(".formErrorContent").length<=0) {*/
+            if (validationflag == null || validationflag.length <= 0) {
+                var params = {
+                    TeaserName: $('#TeaserName').val(),
+                    XML: $editor.getValue(),
+                    TeaserId: TeaserId
+                };
+
+                $.ajax({
+                    url: '@Url.Action("HttpPostResponse", "TeaserManagement")',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: params,
+                    beforeSend: function (data) {
+                        RemoveCookieItem('ValidateTeaserName');
+                        RemoveCookieItem('ValidateTeaserID');
+                        $('#midMobileDiv .MobileContent').css("display", "none");
+                        $('#midMobileDiv').append('<div id="processingImg" class="MobileContent" style="position: absolute; border: 0px solid rgb(193, 193, 193); overflow: auto; width: 190px; height: 240px; top: 65px; left: 53px; font-weight: bolder; text-align: center; vertical-align: middle;"><img src="@(baseurl)includes/images/TeaserManagement/processing.gif" alt="Please Wait" height="185" width="185"></div>')
+
+                    },
+                    success: function (data) {
+
+                        validationResponse = data;
+
+                        if (data.TeaserID != -1) {
+
+                            $('body').find('#TeaserManagementForm #newID').val(data.TeaserID);
+                        }
+
+                        if (parseInt(validationResponse.Response[0].Status) == 200 && validationResponse.Response[0].Msg == "OK") {
+
+                            $.cookie("ValidateTeaserID", data.TeaserID);
+                            $.cookie("ValidateTeaserName", $('#TeaserName').val());
+
+                            $('#processingImg').hide();
+                            $('#midMobileDiv').append('<div id="validImg" class="MobileContent" style="position: absolute; border: 0px solid rgb(193, 193, 193); overflow: auto; width: 190px; height: 240px; top: 65px; left: 53px; font-weight: bolder; text-align: center; vertical-align: middle;">' +
+                                '<img src="@(baseurl)includes/images/TeaserManagement/valid.png" alt="Please Wait" height="185" width="185"></div>')
+                            $('#TeaserValidate').hide();
+                            $('#submitTeasers').show();
+                        } else {
+                            $('#processingImg').hide();
+                            $('#midMobileDiv').append('<div id="invalidImg" class="MobileContent" style="position: absolute; border: 0px solid rgb(193, 193, 193); overflow: auto; width: 190px; height: 240px; top: 65px; left: 53px; font-weight: bolder; text-align: center; vertical-align: middle;">' +
+                                '<img src="@(baseurl)includes/images/TeaserManagement/invalid.png" alt="Please Wait" height="185" width="185"></div>')
+                        }
+
+                        $('form#TeaserManagementForm input[type="text"]').prop('readonly', true);
+                        $('form#TeaserManagementForm textarea').prop('readonly', true);
+                        $('form#TeaserManagementForm select').prop('disabled', true);
+                    },
+                    error: function () {
+                        $("#Form input,#Form textarea, #Form select").attr("readonly", false).css("pointer-event", "auto");
+                        $('#XmlcontentAreaDiv').css("pointer-event", "auto");
+                        $('#processingImg').hide();
+                        $('#midMobileDiv').append('<div id="invalidImg" class="MobileContent" style="position: absolute; border: 0px solid rgb(193, 193, 193); overflow: auto; width: 190px; height: 240px; top: 65px; left: 53px; font-weight: bolder; text-align: center; vertical-align: middle;">' +
+                            '<img src="@(baseurl)includes/images/TeaserManagement/invalid.png" alt="Please Wait" height="185" width="185"></div>')
+                    }
+                })
+            }
+            else if (validationflag.length > 0) {
+                $("#Form input,#Form textarea, #Form select").attr("readonly", false).css("pointer-event", "auto");
+                $('#XmlcontentAreaDiv').css("pointer-event", "auto");
+                Warning(Language.translate("Notice"), validationflag);
+            }
+        });
+
+        $editor.on('change', function () {
+            $('#validImg').hide();
+            $('#invalidImg').hide();
+            $('#submitTeasers').hide();
+            $('#TeaserValidate').show();
+
+
+        });
+
+    });
+
+
+</script>

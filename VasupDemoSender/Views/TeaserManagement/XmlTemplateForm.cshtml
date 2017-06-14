@@ -1,0 +1,65 @@
+﻿
+<div class="container-fluid" id="XmlTemplateList" style="width: 435px; height: 250px; overflow: scroll">
+    <div class="row-fluid">
+
+    </div>
+</div>
+
+
+
+<script>
+    $( document ).ready(function(){
+
+        var $XmlTemplateDiv=$('#XmlTemplateList').find('div');
+
+        $.ajax({
+            url: "@Url.Action("GetXmlTemplate", "TeaserManagement")/",
+            type:"GET",
+            success: function(data) {
+                var $data=JSON.parse(data);
+                if($data.length>=1){
+                    var $ul=$("<ul/>");
+                    $XmlTemplateDiv.append($ul);
+                    $.each ($data, function (k,v) {
+                        var $li=$("<li id="+v.ID+"><a>"+v.XmlName+"</a><p class='hidden'>"+ v.XmlText+"</p><button data-id="+ v.ID+" class='remove btn btn-danger' style='margin-left:15px;height:15px;width:0.2px;padding-right:20px;line-height:1px'>X</button></li>");
+                        $ul.append($li);
+                    });
+                }
+
+                $('button.remove').on('click', function() {
+                    var $li = $(this).closest('li');
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("DeleteXmlTemplate","TeaserManagement")",
+                        data: {id:$(this).attr("data-id")},
+                        success: function() {
+                            $li.remove();
+                        }
+                    });
+                });
+            },
+            error: function(e) {
+                $XmlTemplateDiv.append("<p style='color: #ff0000;text-transform: uppercase;'>"+ e.responseText+"</p>");
+            }
+        });
+    });
+
+
+    $("body ").on("click", "#XmlTemplateList ul li a", function(event) {
+
+        $xmlData=decodeURIComponent($(this).siblings('p').text()).replace(/\+(?=([^"]*"[^"]*")*[^"]*$)/g, ' ');
+        if(SetEditorText($xmlData)){
+            if($('.CodeMirror').text().indexOf('encoding="ucs2"') != -1){
+                $('#HiddenEncoding').val('2');
+            }else
+            {
+                $('#HiddenEncoding').val('1');
+            }
+            $("body").find("#XmlTemplate").dialog("close");
+
+        }
+    });
+</script>
+
+
+

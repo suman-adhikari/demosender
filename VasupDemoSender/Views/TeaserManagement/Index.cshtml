@@ -1,0 +1,121 @@
+﻿@{
+    ViewBag.Title = "Teaser Management";
+    ViewBag.header = "Teaser Management";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var baseurl = Request.Url.GetLeftPart(UriPartial.Authority) + Request.ApplicationPath;
+}
+
+
+<div class="row-fluid">
+    <div id="message" style="display: none">
+    </div>
+</div>
+
+<div class="page-header">
+
+    <div class="pull-right">
+        <button type="button" class="btn btn-success addbtn pull-right " id="AddNew"
+                onclick="showAddNewForm('Add New Teaser', '@Url.Action("Form", "TeaserManagement")', 1200, 575);">
+            <small class="glyphicon glyphicon-plus-sign"></small> Add New Teaser</button>
+    </div>
+    <div class="clearfix"></div>
+</div>
+
+<div class="UnifunBlock">
+    <h2 class="UnifunHeading2">Teasers
+        <button type="button" style="margin-top:2px" title="Refresh Grid"class="pull-right btn btn-primary btn-small refreshGrid" onclick="RefreshTableGrid(this)">
+            <span class="glyphicon glyphicon-refresh"></span>
+        </button>
+    </h2>
+    <table class="table table-bordered table-responsive table-striped wrap-text table-sorted" id="teaserManagement-list">
+        <thead>
+            <tr>
+                @*<th class="sorting">
+                    <a class="table-header" field-name="ID">Teaser ID</a>
+                </th>*@
+                <th class="sorting">
+                    <a class="table-header"field-name="TeaserName">Teaser Name</a>
+                </th>
+                <th class="sorting">
+                    <a class="table-header"field-name="NoOfSteps">No of steps</a>
+                </th>
+                          
+                <th class="sorting">
+                    <a class="table-header"field-name="ActivationType">Activation type</a>
+                </th>
+                <th class="sorting">
+                    <a class="table-header"field-name="Encoding">Encoding</a>
+                </th>
+                <th style="width: 260px !important;" class="sorting">
+                    <a class="table-header" field-name="Comment">Comment</a>
+                </th>
+                <th style="width: 200px !important;">Actions</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <div class="clearfix"></div>
+</div>
+<div id="loading-msg-blacklist" class="loading-image">
+</div>
+<div class="clearfix"></div>
+
+
+<script type="text/javascript">
+    $(function () {
+        $('#teaser-management-menu').addClass('active');
+
+
+        $('#teaserManagement-list').ajaxGrid({
+            pageSize: 10,
+            defaultSortExpression: 'ID',
+            defaultSortOrder: 'DESC',
+            tableHeading: '.table-header',
+            url: '@Url.Action("FindAll", "TeaserManagement")',
+            requestType: 'post',
+            loadingImage: $('#loading-msg-blacklist'),
+            postContent: [
+                {
+                    control: $('<button type="button" class="btn btn-primary" alt="View" title="View" ' +
+                    'onclick=\'showEditForm(this,"View Teaser","TeaserManagement/Show", 1200, 530,"user-loading-message")\'>' +
+                    '<small class="glyphicon glyphicon-file"></small>' +
+                    ' View </button>')
+    },
+                {
+                    control: $('<button type="submit" class="btn btn-danger" ' +
+                       'onclick=\'return deleteRecord(this,"user-loading-message","TeaserManagement/DeleteTeaser","Are you sure you want to Delete?","refreshTeaserManagementList()")\'>' +
+                       '<small class="glyphicon glyphicon-remove"></small>' +
+                       ' Delete </button>'),
+    properties: [
+        {
+            propertyField: 'input[type=hidden]#ID',
+            property: 'value',
+            propertyValue: 'ID'
+        }
+    ]
+    }
+    ],
+    id: 'ID',
+        NoRecordsFound: 'No Records Found',
+    Previous: 'Previous',
+    Next: 'Next")'
+    });
+
+    //RemoveCookieItem('ValidateTeaserName');
+    // RemoveCookieItem('ValidateTeaserID');
+    });
+
+
+    function RemoveCookieItem(sKey, sPath, sDomain) {
+        document.cookie = encodeURIComponent(sKey) +
+        "=; expires=Thu, 01 Jan 1970 00:00:00 GMT" +
+        (sDomain ? "; domain=" + sDomain : "") +
+        (sPath ? "; path=" + sPath : "");
+    }
+
+    function refreshTeaserManagementList() {
+        $('#teaserManagement-list').trigger('refresh');
+    }
+
+
+</script>

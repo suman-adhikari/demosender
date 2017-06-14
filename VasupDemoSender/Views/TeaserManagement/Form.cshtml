@@ -1,0 +1,384 @@
+﻿@using System.Diagnostics
+@model VasupDemoServerModel.TeaserList
+@{
+    Debug.Assert(Request.Url != null, "Request.Url != null");
+    var baseurl = Request.Url.GetLeftPart(UriPartial.Authority) + Request.ApplicationPath;
+}
+
+
+@using (Html.BeginForm("SaveTeaser", "TeaserManagement", FormMethod.Post, new { @class = "form-horizontal", @id = "TeaserManagementForm" }))
+{
+
+
+
+    <div id="Form">
+        <div class="col-xs-4">
+
+            @Html.HiddenFor(x=>x.TeaserXml, new{ @id ="teaserXml" })
+
+            <div class="form-group">
+                <div class="col-xs-4">
+                    @Html.LabelFor(x => x.TeaserName, new { @class = "control-label" })
+                </div>
+                <div class="col-xs-8">
+                    @Html.TextBoxFor(x => x.TeaserName, new { @class = "form-control validate[required]", @id = "TeaserName" })
+                    @*<input class="form-control validate[required,custom[onlyEnglishLetterNumber],custom[CyrillicValidation],maxSize[28]]" id="TeaserName" name="TeaserName" type="text" maxlength="28" value=""/>*@
+                </div>
+            </div>
+
+           @* <div class="radio-inline">
+                <input type="radio" name="gender" value="male"> Male
+                <input type="radio" name="gender" value="female"> Female<br>
+                <input type="radio" name="gender" value="other"> Other 
+            </div>*@
+
+
+            <div class="radio-inline">
+
+                <div class="form-group">                  
+                    <div class="col-xs-4">
+                        <input style="margin-top: 12px;" type="radio" name="xml" value="template" checked>
+                        <label class="control-label" for="LanguageId">Templates</label>
+                    </div>
+                    <div class="col-xs-8">
+                        <select class="form-control templateselect" id="LanguageId" name="LanguageId">
+                            <option>one</option>
+                            <option>Two</option>
+                            <option>Three</option>
+                        </select>
+                    </div>
+                </div>
+
+
+                <div class="XmlContentAreaPrevDiv col-xs-12">
+                    <input style="margin-top: 12px;" type="radio" name="xml" value="inputXml">
+                    <label class="control-label" style="font-weight: bold !important; font-size: 15px;" for="LanguageId">Input XML</label>
+                </div>
+
+                <div class="XmlContentAreaPrevDiv col-xs-12">
+                    <label for='fileUpload' class='btn btn-info uploadfile' style="font-size: 13px !important; font-weight: bolder"><i class="glyphicon glyphicon-folder-open"> </i> Choose File</label>
+                    <input class='dis-none' id='fileUpload' type='file' name='fileUpload' accept=".xml" disabled>
+                    <button id='cancelXml' class='btn btn-danger' type='button'><b>X</b></button>
+                </div>
+
+                @* <?php if ($TeaserList->ID == null): ?>*@
+
+                <div class="XmlContentAreaPrevDiv col-xs-12">
+                    <input type="radio" name="xml" value="generateXml">
+                    <button id='GenerateXml' class='btn btn-info' type='button'> Generate XML</button>
+                    &nbsp;
+                </div>
+                @*<div class="XmlContentAreaPrevDiv col-xs-12">
+                <button id='Templates' class='btn btn-info' type='button'>Templates</button>
+            </div>*@
+            </div>
+
+
+                <div id="submitTeasers" class="col-xs-12" style="display: inline-block; margin-top: 200px; width: 300px; margin-left: -14px">
+                    <input type="submit" id="TeaserManagementSubmit" name="TeaserManagementSubmit" class="btn btn-success" value="Save">
+                </div>
+
+            </div>
+
+
+        <div class="col-xs-3" id="midMobileDiv">
+        </div>
+        <div class="col-xs-5">
+
+            <div class="col-xs-12" id="XmlcontentAreaDiv"></div>
+            <div style="color: red">
+
+                *Restriction notes: <br/>
+                Latin: 240 letters inside < text >tag <br/>
+                Cyrillic & Latin: 120 letter inside < text >tag <br/>
+                Only numbers inside < address >tag
+
+
+            </div>
+
+
+        </div>
+    </div>
+    <div class="clearfix"><br/>
+    </div>
+    @*<?php if ($TeaserList->ID == null): ?>*@
+   @* <div style="margin-top: 0px; text-align: center;" class="col-xs-offset-4 col-xs-3" id="submitBtns">       
+        <input type="button" id="TeaserValidate" name="TeaserValidate" class="btn btn-primary" value="Validate First">
+    </div>*@
+
+}
+
+<script>
+
+    var $saveGlobalFlag = -1;
+    var validationResponse;
+
+    $(document).ready(function () {
+        debugger;
+        /* $('#TeaserManagementTemplateSubmit, #TeaserManagementSubmit').on('click', function () {
+             $('form#TeaserManagementForm select').prop('disabled', false);
+         })*/
+
+        // $('#submitTeasers').hide();
+
+
+        $("#cancelXml").on("click", function () {
+            //alert("nice");
+            clear('<?xml version="1.0" encoding="utf-8"?>');
+        });
+
+        $(".radio-inline").on("change", function () {
+            debugger;
+            $(".templateselect,.uploadfile,#GenerateXml,#fileUpload").attr('disabled', false);
+            var selected = $("input[type='radio']:checked").val();
+            if (selected != "template")
+                $(".templateselect").attr('disabled', true);
+            if (selected != "generateXml")
+                $("#GenerateXml").attr('disabled', true);
+            if (selected != "inputXml")
+                $(".uploadfile,#fileUpload").attr('disabled', true);
+
+        });
+
+      
+
+        $('#TeaserManagementForm').validationEngine({
+            'custom_error_messages': {
+                '#TeaserName': {
+                    'required': {
+                        'message': "Only Latin symbols may be inserted"
+                    }
+                }
+            }
+        });
+
+        $data = '<?php echo $TeaserList->TeaserXmlRu?>';
+
+        var $xmlData = "";
+        try {
+            $xmlData = decodeURIComponent('<?xml version="1.0" encoding="utf-8"?>').replace(/\+/g, ' ');
+        }
+        catch (e) {
+            console.log(e);
+        }
+
+        var $editor = $('#XmlContent').XmlMobileParser({
+            baseUrl: '@baseurl',
+            textArea: {
+                divId: 'XmlcontentAreaDiv',
+                height: 375,
+                margin: '7px auto',
+                text: $xmlData
+            },
+            mobile: {
+                "main": {
+                    divId: 'midMobileDiv',
+                    height: 417
+                },
+                "mobile": {
+                    backgroundUrl: '@baseurl' + '/includes/images/TeaserManagement/UssdPhone.png',
+                    width: 220,
+                    height: 415
+                },
+                "MobileInnerPageNumber": {
+                    width: 190,
+                    height: 18,
+                    top: 48,
+                    left: 53,
+                    border: '1px solid #C1C1C1',
+                    display: 'none'
+                },
+                "MobileInnerDisplay": {
+                    divId: 'midMobileDiv',
+                    backgroundUrl: '@baseurl' + '/includes/images/TeaserManagement/ussd_phone_final.png',
+                    width: 190,
+                    height: 240,
+                    top: 65,
+                    left: 53,
+                    border: '0px solid #C1C1C1',
+                    textAlign: 'center',
+                    verticalAlign: 'middle'
+                },
+                "leftArrow": {
+                    backgroundUrl: '@baseurl' + '/includes/images/TeaserManagement/left.png',
+                    backgroundUrlHover: '@baseurl' + '/includes/images/TeaserManagement/leftHover.png'
+                },
+                "rightArrow": {
+                    backgroundUrl: '@baseurl' + '/includes/images/TeaserManagement/right.png',
+                    backgroundUrlHover: '@baseurl' + '/includes/images/TeaserManagement/rightHover.png'
+                }
+            },
+            numberOfClicksID: 'numberOfClicks'
+        });
+
+        setEditor($editor);
+        SetEditorText($xmlData);
+
+
+
+
+        var $saveFlag = 0;
+       /* $('#TeaserManagementSubmit').on('click', function (event) {
+            try {
+
+                event.preventDefault();
+                if ($saveGlobalFlag == 1) {
+                    return false;
+                }
+                if ($saveFlag != 1) {
+                    var $tempFlag = 0;
+                    if ($tempFlag != 1 && $saveGlobalFlag == -1) {
+                        if ($('#SaveFlag').attr("value") != '-1') {
+                            $('#SaveFlag').attr("value", $editor.getValue());
+                            $saveGlobalFlag = 1;
+                            $("#TeaserManagementForm").submit();
+                            $saveFlag = 0;
+                        }
+                        else {
+                            Confirmation(this, "Error!!!!", "The Xml Provided is Invalid", "OK", "null");
+                            $saveGlobalFlag = -1;
+                        }
+                    }
+                }
+            }
+            catch (e) {
+                console.log(e.message);
+            }
+
+        });*/
+
+
+        $('#fileUpload').on("change", function () {
+            debugger;
+            if (previewFile(this, $('#XmlcontentAreaDiv')) == 0) {
+                Confirmation(this, "Error!!!!", "The Xml Provided is not Xml.", "OK", "null");
+            }
+
+        });
+
+        $('#fileUpload').on("click", function () {            
+            this.value = null;
+        });
+
+
+       $('#TeaserManagementSubmit').on('click', function (event) {
+           var xml = $editor.getValue();
+           $("#teaserXml").val(xml);
+
+       });
+
+
+        $('#GenerateXml').on("click", function () {
+            showNewForm('Xml Generator', '@Url.Action("XmlGeneratorForm", "TeaserManagement")', 800, 750, 'XmlGenerator');
+        });
+
+        /*$('#EditXml').on("click", function () {
+         showNewForm('
+        <?= $Language->translate("Xml Generator")?>"', '
+        <?php echo BASE_URL?>TeaserManagement/XmlGeneratorForm', 800, 680, 'XmlGenerator');
+         });*/
+
+
+        $('#Templates').on("click", function () {
+            showNewForm('Xml Template', '@Url.Action("XmlTemplateForm","TeaserManagement")/', 450, 300, 'XmlTemplate');
+        });
+
+        $('#TeaserValidate').click(function () {
+
+            var valid = $("#TeaserManagementForm").validationEngine('validate');
+            if (valid == false) {
+                return false;
+            }
+
+            $("#Form input,#Form textarea, #Form select").attr("readonly", true).css("pointer-event", "none");
+            $('#XmlcontentAreaDiv').css("pointer-event", "none");
+
+            var TeaserId = null;
+            /* <?php if($TeaserList->ID != null){ ?>
+             if ((<?php echo $TeaserList->ID ?>) > 0) {
+                 TeaserId = <?php echo $TeaserList->ID ?>;
+             }
+             <?php } ?>*/
+
+            var validationflag = "";
+            debugger;
+            var validationflag = checkXmlValidation();
+
+            /*if (validationflag.length <= 0 && $(".formErrorContent").length<=0) {*/
+            if (validationflag == null || validationflag.length <= 0) {
+                var params = {
+                    TeaserName: $('#TeaserName').val(),
+                    XML: $editor.getValue(),
+                    TeaserId: TeaserId
+                };
+
+                @*$.ajax({
+                    url: '@Url.Action("HttpPostResponse", "TeaserManagement")',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: params,
+                    beforeSend: function (data) {
+                        RemoveCookieItem('ValidateTeaserName');
+                        RemoveCookieItem('ValidateTeaserID');
+                        $('#midMobileDiv .MobileContent').css("display", "none");
+                        $('#midMobileDiv').append('<div id="processingImg" class="MobileContent" style="position: absolute; border: 0px solid rgb(193, 193, 193); overflow: auto; width: 190px; height: 240px; top: 65px; left: 53px; font-weight: bolder; text-align: center; vertical-align: middle;"><img src="@(baseurl)/includes/images/TeaserManagement/processing.gif" alt="Please Wait" height="185" width="185"></div>')
+
+                    },
+                    success: function (data) {
+
+                        validationResponse = data;
+
+                        if (data.TeaserID != -1) {
+
+                            $('body').find('#TeaserManagementForm #newID').val(data.TeaserID);
+                        }
+
+                        if (parseInt(validationResponse.Response[0].Status) == 200 && validationResponse.Response[0].Msg == "OK") {
+
+                            $.cookie("ValidateTeaserID", data.TeaserID);
+                            $.cookie("ValidateTeaserName", $('#TeaserName').val());
+
+                            $('#processingImg').hide();
+                            $('#midMobileDiv').append('<div id="validImg" class="MobileContent" style="position: absolute; border: 0px solid rgb(193, 193, 193); overflow: auto; width: 190px; height: 240px; top: 65px; left: 53px; font-weight: bolder; text-align: center; vertical-align: middle;">' +
+                                '<img src="@(baseurl)/includes/images/TeaserManagement/valid.png" alt="Please Wait" height="185" width="185"></div>')
+                            $('#TeaserValidate').hide();
+                            $('#submitTeasers').show();
+                        } else {
+                            $('#processingImg').hide();
+                            $('#midMobileDiv').append('<div id="invalidImg" class="MobileContent" style="position: absolute; border: 0px solid rgb(193, 193, 193); overflow: auto; width: 190px; height: 240px; top: 65px; left: 53px; font-weight: bolder; text-align: center; vertical-align: middle;">' +
+                                '<img src="@(baseurl)/includes/images/TeaserManagement/invalid.png" alt="Please Wait" height="185" width="185"></div>')
+                        }
+
+                        $('form#TeaserManagementForm input[type="text"]').prop('readonly', true);
+                        $('form#TeaserManagementForm textarea').prop('readonly', true);
+                        $('form#TeaserManagementForm select').prop('disabled', true);
+                    },
+                    error: function () {
+                        $("#Form input,#Form textarea, #Form select").attr("readonly", false).css("pointer-event", "auto");
+                        $('#XmlcontentAreaDiv').css("pointer-event", "auto");
+                        $('#processingImg').hide();
+                        $('#midMobileDiv').append('<div id="invalidImg" class="MobileContent" style="position: absolute; border: 0px solid rgb(193, 193, 193); overflow: auto; width: 190px; height: 240px; top: 65px; left: 53px; font-weight: bolder; text-align: center; vertical-align: middle;">' +
+                            '<img src="@(baseurl)/includes/images/TeaserManagement/invalid.png" alt="Please Wait" height="185" width="185"></div>')
+                    }
+                })*@
+            }
+            else if (validationflag.length > 0) {
+                $("#Form input,#Form textarea, #Form select").attr("readonly", false).css("pointer-event", "auto");
+                $('#XmlcontentAreaDiv').css("pointer-event", "auto");
+                Warning(Language.translate("Notice"), validationflag);
+            }
+        });
+
+        /* $editor.on('change', function () {
+             $('#validImg').hide();
+             $('#invalidImg').hide();
+             $('#submitTeasers').hide();
+             $('#TeaserValidate').show();
+
+
+         });*/
+
+    });
+
+
+</script>

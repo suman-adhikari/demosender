@@ -1,0 +1,4 @@
+F:\SVN Projects\VASUPDemoSender\VasupDemoSender\VasupDemoServerModel\bin\Release\VasupDemoServerModel.dll
+F:\SVN Projects\VASUPDemoSender\VasupDemoSender\VasupDemoServerModel\bin\Release\VasupDemoServerModel.pdb
+F:\SVN Projects\VASUPDemoSender\VasupDemoSender\VasupDemoServerModel\obj\Release\VasupDemoServerModel.dll
+F:\SVN Projects\VASUPDemoSender\VasupDemoSender\VasupDemoServerModel\obj\Release\VasupDemoServerModel.pdb

@@ -1,0 +1,28 @@
+﻿
+@using VasupDemoServerInfrastructure
+
+@if (Session[SessionVariables.ConfirmationStatus] != null)
+{
+    if (Convert.ToString(Session[SessionVariables.ConfirmationStatus]) == "Failed")
+    {
+        <div class="alert alert-error" role="alert">
+            <span>@Convert.ToString(Session[SessionVariables.ConfirmationMessage])</span>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-success" role="alert">
+            <span>@Convert.ToString(Session[SessionVariables.ConfirmationMessage])</span>
+        </div>
+
+    }
+
+    Session[SessionVariables.ConfirmationStatus] = null;
+    Session[SessionVariables.ConfirmationMessage] = null;
+}
+
+
+
+
+
+

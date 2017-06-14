@@ -1,0 +1,87 @@
+﻿body { }
+
+.geo_login-container {
+    border: 1px solid #999;
+    border-radius: 21px;
+    bottom: 0;
+    box-shadow: 0px 1px 34px #999;
+    height: 250px;
+    left: 0;
+    margin: auto;
+    overflow: hidden;
+    padding: 0px;
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 350px;
+}
+
+.login_head {
+    background-color: royalblue;
+    color: white;
+    font-size: large;
+    padding: 10px 40px;
+}
+
+.loginbox { padding: 30px; }
+
+.lgn_lbl {
+    font-size: medium;
+    height: 45px;
+    width: 80px;
+}
+
+.lgn_tb {
+    height: 30px;
+    width: 200px;
+}
+
+.errormsg {
+    background-color: lightpink;
+    padding: 5px;
+    width: 170px;
+}
+
+#optMenu ul li a {
+    background-color: royalblue;
+    color: white;
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    vertical-align: middle;
+}
+
+#optMenu ul li {
+    display: inline-block;
+    font-size: 18px;
+    list-style: none;
+    text-align: center;
+}
+
+.form-tb {
+    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    color: #555;
+    display: block;
+    font-size: 14px;
+    height: 34px;
+    line-height: 1.42857143;
+    padding: 6px;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    width: 100%;
+}
+
+.form-grp { margin-top: 20PX; }
+
+.tb {
+    border: 1px solid gray;
+    margin-left: 10px;
+}
+
+.addbtn { margin-bottom: 4px; }

@@ -1,0 +1,155 @@
+﻿@using VasupDemoSender.Languages
+@{
+    ViewBag.Title = "User Management";
+    ViewBag.header = "User Management List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+
+    <div class="row-fluid">
+        <div id="message" style="display: none">
+        </div>
+    </div>
+
+    <div class="page-header">
+        <button type="button" class="btn btn-success addbtn pull-right " id="AddNew">
+            <small class="glyphicon glyphicon-plus-sign"></small>
+            Add New User
+        </button>
+        <div class="clearfix"></div>
+    </div>
+
+    <div class="UnifunBlock">
+        <h2 class="UnifunHeading2">
+           @Lang.UserManagement
+            <button type="button" style="margin-top: 2px" title="Refresh Grid" class="pull-right btn btn-primary btn-small refreshGrid" onclick=" RefreshTableGrid(this) ">
+                <span class="glyphicon glyphicon-refresh"></span>
+            </button>
+        </h2>
+        <table class="table table-bordered table-responsive table-striped wrap-text" id="user-management-list">
+            <thead>
+            <tr>
+                    @*<th><a class="table-header" field-name="ID">Id</a></th>*@
+                    <th class="sorting"><a class="table-header" field-name="Date_Created">Date</a></th>
+                    <th class="sorting"><a class="table-header" field-name="User_name">User Name</a></th>
+                    <th class="sorting"><a class="table-header" field-name="User_Type">Role</a></th>
+                    <th class="sorting"><a class="table-header" field-name="Date_Lastlogin">Last Login</a></th>
+                    <th>Actions</th>
+</tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <div class="clearfix"></div>
+    </div>
+   <div id="loading-msg-user-management" class="loading-image"></div>
+    <div class="clearfix"></div>
+      
+    <div class="UnifunBlock">
+        <h2 class="UnifunHeading2">
+            @Lang.UserActionLog
+            <button type="button" style="margin-top: 2px" title="Refresh Grid" class="pull-right btn btn-primary btn-small refreshGrid" onclick=" RefreshTableGrid(this) ">
+                <span class="glyphicon glyphicon-refresh"></span>
+            </button>
+        </h2>        
+        <div class="clearfix"></div>
+
+        <table class="table table-bordered table-responsive table-striped wrap-text" id="user-log-list">
+            <thead>
+            <tr>
+                <th class="sorting"><a class="table-header" field-name="UserName">User Name</a></th>
+                <th class="sorting"><a class="table-header" field-name="DateTime">Date Time</a></th>
+                <th class="sorting"><a class="table-header" field-name="UserAction">User Action</a></th>
+            </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <div class="clearfix"></div>
+        <div id="loading-msg-user-log" class="loading-image"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $('#usermanagement-menu').addClass('active');
+        
+        $('#user-management-list').ajaxGrid({
+            pageSize: 5,
+            defaultSortExpression: 'ID',
+            defaultSortOrder: 'DESC',
+            tableHeading: '.table-header',
+            url: '@Url.Action("FindAll", "UserManagement")',
+            requestType: 'post',
+            loadingImage: $('#loading-msg-user-management'),
+            NoRecordsFound: 'No Records Found',
+            postContent: [
+                {
+                    control: $('<button type="button" class="btn btn-primary" ' +
+                        'onclick=\'showEditForm(this,"Edit","UserManagement/UserForm",400,350,"user-loading-message")\'>' +
+                        '<small class="glyphicon glyphicon-edit"></small>' +
+                        ' Edit </button>')
+                },
+                {
+                    control: $('<button type="submit" class="btn btn-danger" ' +
+                        'onclick=\'return deleteRecord(this,"user-loading-message","UserManagement/DeleteUser","Are you sure you want to Delete?","refreshUserManagementList()")\'>' +
+                        '<small class="glyphicon glyphicon-remove"></small>' +
+                        ' Delete </button>'),
+                    properties: [
+                        {
+                            propertyField: 'input[type=hidden]#ID',
+                            property: 'value',
+                            propertyValue: 'ID'
+                        }
+                    ],
+                    removeWhen: { property: 'UserType', value: 'Admin' }
+                }
+            ],
+            id: 'ID',
+            rowClick: {
+                rowClickAble: true,
+                excludeColumn: 4,
+                rowClickFunction: UserManagementRowClick
+            }
+        });
+
+        $('#AddNew').click(function () {
+            showAddNewForm('Add New', "UserManagement/UserForm", 400, 300, "user-loading-message");
+        });
+
+        LoadUserLogList();
+    });
+
+
+    function LoadUserLogList() {
+        debugger;
+        $('#user-log-list').ajaxGrid({
+            pageSize: 10,
+            defaultSortExpression: 'ID',
+            defaultSortOrder: 'DESC',
+            tableHeading: '.table-header',
+            url: '@Url.Action("FindAll", "UserActionLog")',
+            requestType: 'post',
+            loadingImage: $('#loading-msg-user-log'),
+            NoRecordsFound: 'No Records Found',
+            id: 'ID'
+        });
+    }
+
+    function UserManagementRowClick(thisObj) {
+        debugger;
+        var userId = $(thisObj).closest('tr').attr("id");
+        $('#user-log-list').trigger('refreshGrid', { userId: userId });
+
+        $("#user-management-list tr").removeClass("row-highlight");
+        $(thisObj).closest('tr').addClass("row-highlight");
+    }
+
+
+    function refreshUserManagementList() {
+        debugger;
+        $('#user-management-list, #user-log-list').trigger('refresh');      
+        $('#user-management-list, #user-log-list').trigger('refresh');      
+    }
+
+
+</script>

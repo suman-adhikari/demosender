@@ -1,0 +1,18 @@
+F:\SVN Projects\VASUPDemoSender\VasupDemoSender\VasupDemoServerRepository\bin\Debug\VasupDemoServerRepository.dll
+F:\SVN Projects\VASUPDemoSender\VasupDemoSender\VasupDemoServerRepository\bin\Debug\VasupDemoServerRepository.pdb
+F:\SVN Projects\VASUPDemoSender\VasupDemoSender\VasupDemoServerRepository\bin\Debug\VasupDemoServerInfrastructure.dll
+F:\SVN Projects\VASUPDemoSender\VasupDemoSender\VasupDemoServerRepository\bin\Debug\VasupDemoServerModel.dll
+F:\SVN Projects\VASUPDemoSender\VasupDemoSender\VasupDemoServerRepository\bin\Debug\VasupDemoServerInfrastructure.pdb
+F:\SVN Projects\VASUPDemoSender\VasupDemoSender\VasupDemoServerRepository\bin\Debug\VasupDemoServerModel.pdb
+F:\SVN Projects\VASUPDemoSender\VasupDemoSender\VasupDemoServerRepository\obj\Debug\VasupDemoServerRepository.csprojResolveAssemblyReference.cache
+F:\SVN Projects\VASUPDemoSender\VasupDemoSender\VasupDemoServerRepository\obj\Debug\VasupDemoServerRepository.dll
+F:\SVN Projects\VASUPDemoSender\VasupDemoSender\VasupDemoServerRepository\obj\Debug\VasupDemoServerRepository.pdb
+F:\DotNetProjects\VasupDemoSender\VasupDemoServerRepository\bin\Debug\VasupDemoServerRepository.dll
+F:\DotNetProjects\VasupDemoSender\VasupDemoServerRepository\bin\Debug\VasupDemoServerRepository.pdb
+F:\DotNetProjects\VasupDemoSender\VasupDemoServerRepository\bin\Debug\VasupDemoServerInfrastructure.dll
+F:\DotNetProjects\VasupDemoSender\VasupDemoServerRepository\bin\Debug\VasupDemoServerModel.dll
+F:\DotNetProjects\VasupDemoSender\VasupDemoServerRepository\bin\Debug\VasupDemoServerInfrastructure.pdb
+F:\DotNetProjects\VasupDemoSender\VasupDemoServerRepository\bin\Debug\VasupDemoServerModel.pdb
+F:\DotNetProjects\VasupDemoSender\VasupDemoServerRepository\obj\Debug\VasupDemoServerRepository.csprojResolveAssemblyReference.cache
+F:\DotNetProjects\VasupDemoSender\VasupDemoServerRepository\obj\Debug\VasupDemoServerRepository.dll
+F:\DotNetProjects\VasupDemoSender\VasupDemoServerRepository\obj\Debug\VasupDemoServerRepository.pdb

@@ -1,0 +1,34 @@
+F:\SVN Projects\VASUPDemoSender\VasupDemoSender\VasupDemoSender\bin\VasupDemoSender.dll.config
+F:\SVN Projects\VASUPDemoSender\VasupDemoSender\VasupDemoSender\bin\VasupDemoSender.dll
+F:\SVN Projects\VASUPDemoSender\VasupDemoSender\VasupDemoSender\bin\VasupDemoSender.pdb
+F:\SVN Projects\VASUPDemoSender\VasupDemoSender\VasupDemoSender\bin\VasupDemoServerInfrastructure.dll
+F:\SVN Projects\VASUPDemoSender\VasupDemoSender\VasupDemoSender\bin\VasupDemoServerModel.dll
+F:\SVN Projects\VASUPDemoSender\VasupDemoSender\VasupDemoSender\bin\VasupDemoServerRepository.dll
+F:\SVN Projects\VASUPDemoSender\VasupDemoSender\VasupDemoSender\bin\VasupDemoServerInfrastructure.pdb
+F:\SVN Projects\VASUPDemoSender\VasupDemoSender\VasupDemoSender\bin\VasupDemoServerModel.pdb
+F:\SVN Projects\VASUPDemoSender\VasupDemoSender\VasupDemoSender\bin\VasupDemoServerRepository.pdb
+F:\SVN Projects\VASUPDemoSender\VasupDemoSender\VasupDemoSender\obj\Debug\VasupDemoSender.csprojResolveAssemblyReference.cache
+F:\SVN Projects\VASUPDemoSender\VasupDemoSender\VasupDemoSender\obj\Debug\VasupDemoSender.csproj.GenerateResource.Cache
+F:\SVN Projects\VASUPDemoSender\VasupDemoSender\VasupDemoSender\obj\Debug\VasupDemoSender.dll
+F:\SVN Projects\VASUPDemoSender\VasupDemoSender\VasupDemoSender\obj\Debug\VasupDemoSender.pdb
+F:\SVN Projects\VASUPDemoSender\VasupDemoSender\VasupDemoSender\bin\fr\VasupDemoSender.resources.dll
+F:\SVN Projects\VASUPDemoSender\VasupDemoSender\VasupDemoSender\obj\Debug\VasupDemoSender.Languages.Lang.resources
+F:\SVN Projects\VASUPDemoSender\VasupDemoSender\VasupDemoSender\obj\Debug\VasupDemoSender.Languages.Lang.fr.resources
+F:\SVN Projects\VASUPDemoSender\VasupDemoSender\VasupDemoSender\obj\Debug\fr\VasupDemoSender.resources.dll
+F:\DotNetProjects\VasupDemoSender\VasupDemoSender\bin\VasupDemoSender.dll.config
+F:\DotNetProjects\VasupDemoSender\VasupDemoSender\bin\VasupDemoSender.dll
+F:\DotNetProjects\VasupDemoSender\VasupDemoSender\bin\VasupDemoSender.pdb
+F:\DotNetProjects\VasupDemoSender\VasupDemoSender\bin\fr\VasupDemoSender.resources.dll
+F:\DotNetProjects\VasupDemoSender\VasupDemoSender\bin\VasupDemoServerInfrastructure.dll
+F:\DotNetProjects\VasupDemoSender\VasupDemoSender\bin\VasupDemoServerModel.dll
+F:\DotNetProjects\VasupDemoSender\VasupDemoSender\bin\VasupDemoServerRepository.dll
+F:\DotNetProjects\VasupDemoSender\VasupDemoSender\bin\VasupDemoServerInfrastructure.pdb
+F:\DotNetProjects\VasupDemoSender\VasupDemoSender\bin\VasupDemoServerModel.pdb
+F:\DotNetProjects\VasupDemoSender\VasupDemoSender\bin\VasupDemoServerRepository.pdb
+F:\DotNetProjects\VasupDemoSender\VasupDemoSender\obj\Debug\VasupDemoSender.csprojResolveAssemblyReference.cache
+F:\DotNetProjects\VasupDemoSender\VasupDemoSender\obj\Debug\VasupDemoSender.Languages.Lang.resources
+F:\DotNetProjects\VasupDemoSender\VasupDemoSender\obj\Debug\VasupDemoSender.Languages.Lang.fr.resources
+F:\DotNetProjects\VasupDemoSender\VasupDemoSender\obj\Debug\VasupDemoSender.csproj.GenerateResource.Cache
+F:\DotNetProjects\VasupDemoSender\VasupDemoSender\obj\Debug\fr\VasupDemoSender.resources.dll
+F:\DotNetProjects\VasupDemoSender\VasupDemoSender\obj\Debug\VasupDemoSender.dll
+F:\DotNetProjects\VasupDemoSender\VasupDemoSender\obj\Debug\VasupDemoSender.pdb

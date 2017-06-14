@@ -1,0 +1,142 @@
+﻿
+@using System.Web.Mvc.Html
+@{
+    ViewBag.Title = "UserForm";
+}
+
+@using (Html.BeginForm("Form", "UserManagement", FormMethod.Post, new { @class = "form-horizontal", @id = "UserManagementForm" }))
+{
+
+    <div id="mainmodal">
+
+
+        @Html.HiddenFor(x => x.Id, new { @class = "form-control" })
+       
+        <div class="form-group">
+            <div class="col-xs-5">
+                @Html.LabelFor(x => x.Username, new { @class = "control-label" })
+            </div>
+            <div class="col-xs-7">
+                @Html.TextBoxFor(x => x.Username, new { @class = "form-control validate[required]" })
+            </div>
+        </div>
+
+        @if (Model.Id > 0)
+        {
+
+            <div class="form-group">
+                <div class="col-xs-5">
+                    @Html.Label("Change Password", new { @class = "control-label" })
+                </div>
+                <div class="col-xs-7">
+                    @Html.CheckBox("ChangePassword", new { @onchange = "Switch(this)" })
+                </div>
+
+            </div>
+        }
+
+        <div class="form-group">
+            <div class="col-xs-5">
+                @Html.LabelFor(x => x.Password, new { @class = "control-label" })
+            </div>
+            <div class="col-xs-7">
+                @Html.PasswordFor(x => x.Password, new { @class = "form-control validate[required]" })
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            <div class="col-xs-5">
+                @Html.Label("Confirm Password", new { @class = "control-label" })
+            </div>
+            <div class="col-xs-7">
+                @Html.Password("Confirm Password", "", new { @class = "form-control validate[required,equals[Password]] ", @id = "ConfirmPassword" })
+            </div>
+        </div>
+        @if (Model.Id == 1)
+        {
+            @Html.HiddenFor(x => x.UserType)
+        }
+        else
+        {
+            <div class="form-group">
+                <div class="col-xs-5">
+                    @Html.Label("User Type", new { @class = "control-label" })
+                </div>
+
+
+                <div class="col-xs-7">
+                    @Html.DropDownListFor(x => x.UserType, (IEnumerable<SelectListItem>)ViewBag.Category, new { @class = "form-control" })
+                </div>
+
+            </div>
+
+        }
+        <div class="form-group">
+            <div class="col-xs-12">
+                <input type="button" id="btn_save" value="Save" class="btn btn-primary" />
+                <input type="button" id="btn_cancel" value="Cancel" class="btn btn-primary" onclick=" closeDialog(this) " />
+            </div>
+        </div>
+
+    </div>
+
+}
+
+<script>
+
+    $(function () {
+        $('#UserManagementForm').validationEngine();
+
+        var id = @Model.Id;
+
+        if (id > 0) {
+            $("#Password").prop("disabled", true);
+            $("#ConfirmPassword").prop("disabled", true);
+        }
+
+    });
+
+    function Switch($thisobj) {
+        if ($($thisobj).is(":checked")) {
+            $("#Password").prop("disabled", false);
+            $("#ConfirmPassword").prop("disabled", false);
+        } else {
+            $("#Password").prop("disabled", true);
+            $("#ConfirmPassword").prop("disabled", true);
+        }
+    }
+
+    $("#btn_save").click(function () {
+
+        validate = $('#UserManagementForm').validationEngine("validate");
+
+        if (validate) {
+
+            var id = $("#Id").val() == "" ? 0 : $("#Id").val();
+            $.ajax({
+                url: '@Url.Action("Index", "UserManagement")',
+                type: "post",
+                dataType: "json",
+                data: $("#UserManagementForm").serialize(),
+                success: function (response) {
+                    if (response.Result == "Success") {
+                        showSuccessMessage('message', response.Message);
+                    } else if (response.Result == "Failed") {
+                        showFailureMessage('message', response.Message);
+                    }
+                    $("#btn_cancel").trigger("click");
+                    $('#user-management-list').trigger('refresh');
+
+                },
+                error: function () {
+                    showFailureMessage('message', "Error Occured");
+                }
+            });
+        }
+
+    });
+
+
+
+</script>
